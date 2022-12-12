@@ -47,65 +47,65 @@ constexpr auto const defBank_out = 3;
  * 
  */
 
-constexpr auto const ADDR_AP_CTRL               = (0 * 0x04) >> 2;
-constexpr auto const ADDR_GIE                   = (1 * 0x04) >> 2;
-constexpr auto const ADDR_IER                   = (2 * 0x04) >> 2;
-constexpr auto const ADDR_ISR                   = (3 * 0x04) >> 2;
+constexpr auto const ADDR_AP_CTRL               = 0x00 >> 2;
+constexpr auto const ADDR_GIE                   = 0x04 >> 2;
+constexpr auto const ADDR_IER                   = 0x08 >> 2;
+constexpr auto const ADDR_ISR                   = 0x0c >> 2;
 
 
-constexpr auto const ADDR_QUERY_NUM_DATA_0      = (4 * 0x04) >> 2;
-constexpr auto const ADDR_QUERY_NUM_CTRL        = (5 * 0x04) >> 2;
+constexpr auto const ADDR_QUERY_NUM_DATA_0      = 0x10 >> 2;
+constexpr auto const ADDR_QUERY_NUM_CTRL        = 0x14 >> 2;
 
-constexpr auto const ADDR_NLIST_DATA_0          = (6 * 0x04) >> 2;
-constexpr auto const ADDR_NLIST_CTRL            = (7 * 0x04) >> 2;
+constexpr auto const ADDR_NLIST_DATA_0          = 0x18 >> 2;
+constexpr auto const ADDR_NLIST_CTRL            = 0x1c >> 2;
 
-constexpr auto const ADDR_NPROBE_DATA_0         = (8 * 0x04) >> 2;
-constexpr auto const ADDR_NPROBE_CTRL           = (9 * 0x04) >> 2;
+constexpr auto const ADDR_NPROBE_DATA_0         = 0x20 >> 2;
+constexpr auto const ADDR_NPROBE_CTRL           = 0x24 >> 2;
 
 
-constexpr auto const ADDR_META_DATA_INIT_DATA_0 = (10 * 0x04) >> 2;
-constexpr auto const ADDR_META_DATA_INIT_DATA_1 = (11 * 0x04) >> 2;
-constexpr auto const ADDR_META_DATA_INIT_CTRL   = (12 * 0x04) >> 2;
+constexpr auto const ADDR_META_DATA_INIT_DATA_0 = 0x28 >> 2;
+constexpr auto const ADDR_META_DATA_INIT_DATA_1 = 0x2c >> 2;
+constexpr auto const ADDR_META_DATA_INIT_CTRL   = 0x30 >> 2;
 
-constexpr auto const ADDR_IN_DRAM_DATA_0        = (13 * 0x04) >> 2;
-constexpr auto const ADDR_IN_DRAM_DATA_1        = (14 * 0x04) >> 2;
-constexpr auto const ADDR_IN_DRAM_CTRL          = (15 * 0x04) >> 2;
+constexpr auto const ADDR_IN_DRAM_DATA_0        = 0x34 >> 2;
+constexpr auto const ADDR_IN_DRAM_DATA_1        = 0x38 >> 2;
+constexpr auto const ADDR_IN_DRAM_CTRL          = 0x3c >> 2;
 
-constexpr auto const ADDR_PQ_CODES_DRAM_0_DATA_0  = (16 * 0x04) >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_0_DATA_1  = (17 * 0x04) >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_0_CTRL    = (18 * 0x04) >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_0_DATA_0  = 0x40 >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_0_DATA_1  = 0x44 >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_0_CTRL    = 0x48 >> 2;
 
-constexpr auto const ADDR_PQ_CODES_DRAM_1_DATA_0  = (19 * 0x04) >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_1_DATA_1  = (20 * 0x04) >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_1_CTRL    = (21 * 0x04) >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_1_DATA_0  = 0x4c >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_1_DATA_1  = 0x50 >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_1_CTRL    = 0x54 >> 2;
 
-constexpr auto const ADDR_PQ_CODES_DRAM_2_DATA_0  = (22 * 0x04) >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_2_DATA_1  = (23 * 0x04) >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_2_CTRL    = (24 * 0x04) >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_2_DATA_0  = 0x58 >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_2_DATA_1  = 0x5c >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_2_CTRL    = 0x60 >> 2;
 
-constexpr auto const ADDR_PQ_CODES_DRAM_3_DATA_0  = (25 * 0x04) >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_3_DATA_1  = (26 * 0x04) >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_3_CTRL    = (27 * 0x04) >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_3_DATA_0  = 0x64 >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_3_DATA_1  = 0x68 >> 2;
+constexpr auto const ADDR_PQ_CODES_DRAM_3_CTRL    = 0x6c >> 2;
 
-constexpr auto const ADDR_VEC_ID_DRAM_0_DATA_0  = (28 * 0x04) >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_0_DATA_1  = (29 * 0x04) >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_0_CTRL    = (30 * 0x04) >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_0_DATA_0  = 0x70 >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_0_DATA_1  = 0x74 >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_0_CTRL    = 0x78 >> 2;
 
-constexpr auto const ADDR_VEC_ID_DRAM_1_DATA_0  = (31 * 0x04) >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_1_DATA_1  = (32 * 0x04) >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_1_CTRL    = (33 * 0x04) >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_1_DATA_0  = 0x7c >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_1_DATA_1  = 0x80 >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_1_CTRL    = 0x84 >> 2;
 
-constexpr auto const ADDR_VEC_ID_DRAM_2_DATA_0  = (34 * 0x04) >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_2_DATA_1  = (35 * 0x04) >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_2_CTRL    = (36 * 0x04) >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_2_DATA_0  = 0x88 >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_2_DATA_1  = 0x8c >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_2_CTRL    = 0x90 >> 2;
 
-constexpr auto const ADDR_VEC_ID_DRAM_3_DATA_0  = (37 * 0x04) >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_3_DATA_1  = (38 * 0x04) >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_3_CTRL    = (39 * 0x04) >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_3_DATA_0  = 0x94 >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_3_DATA_1  = 0x98 >> 2;
+constexpr auto const ADDR_VEC_ID_DRAM_3_CTRL    = 0x9c >> 2;
 
-constexpr auto const ADDR_OUT_DRAM_DATA_0  = (40 * 0x04) >> 2;
-constexpr auto const ADDR_OUT_DRAM_DATA_1  = (41 * 0x04) >> 2;
-constexpr auto const ADDR_OUT_DRAM_CTRL    = (42 * 0x04) >> 2;
+constexpr auto const ADDR_OUT_DRAM_DATA_0  = 0xa0 >> 2;
+constexpr auto const ADDR_OUT_DRAM_DATA_1  = 0xa4 >> 2;
+constexpr auto const ADDR_OUT_DRAM_CTRL    = 0xa8 >> 2;
 
 constexpr auto const krnlStart = 0x1;
 constexpr auto const krnlStatus = 0x2;
@@ -181,13 +181,14 @@ int main(int argc, char *argv[])
     if (strncmp(db_name.c_str(), "SBERT", 5) == 0) {
         if (db_name == "SBERT3000M") {
             nlist = 65536;
-            data_dir_prefix = "/mnt/scratch/wenqi/Faiss_Enzian_U250_index/SBERT3000M_IVF65536,PQ64";
+            data_dir_prefix = "/scratch/wejiang/Faiss_Enzian_U250_index/SBERT3000M_IVF65536,PQ64";
+            // data_dir_prefix = "/scratch/wejiang/Faiss_Enzian_U250_index/SBERT3000M_IVF65536,PQ64";
             raw_gt_vec_ID_suffix_dir = "gt_idx_3000M.ibin";
             raw_gt_dist_suffix_dir = "gt_dis_3000M.fbin";
             vector_quantizer_dir_suffix = "vector_quantizer_float32_65536_384_raw";
         }
         query_num = 10000;
-        gnd_dir = "/mnt/scratch/wenqi/Faiss_experiments/sbert/";
+        gnd_dir = "/scratch/wejiang/Faiss_experiments/sbert/";
         product_quantizer_dir_suffix = "product_quantizer_float32_64_256_6_raw";
         query_vectors_dir_suffix = "query_vectors_float32_10000_384_raw";
         raw_gt_vec_ID_size = (10000 * 1000 + 2) * sizeof(int);
@@ -414,6 +415,7 @@ int main(int argc, char *argv[])
     memcpy(&meta_data_init[3 * nlist], product_quantizer_char, product_quantizer_size);
     free(product_quantizer_char);
     uint64_t pc_meta_data_init = cproc.offload(meta_data_init.data(), meta_data_init_bytes, defBank_meta_data_init);
+    meta_data_init.erase(meta_data_init.begin(), meta_data_init.end());
     std::cout << "Offload completed, pc_meta_data_init: " << std::hex << pc_meta_data_init  << std::dec << std::endl;
 
 
@@ -428,6 +430,7 @@ int main(int argc, char *argv[])
     memcpy(&PQ_codes_DRAM_0[0], PQ_codes_DRAM_0_char, PQ_codes_DRAM_0_size);
     free(PQ_codes_DRAM_0_char);
     uint64_t pc_PQ_codes_DRAM_0 = cproc.offload(PQ_codes_DRAM_0.data(), PQ_codes_DRAM_0_size, defBank_PQ_codes_DRAM_0);
+    PQ_codes_DRAM_0.erase(PQ_codes_DRAM_0.begin(), PQ_codes_DRAM_0.end());
     std::cout << "Offload completed, pc_PQ_codes_DRAM_0: " << std::hex << pc_PQ_codes_DRAM_0  << std::dec << std::endl;
 
 
@@ -441,6 +444,7 @@ int main(int argc, char *argv[])
     memcpy(&PQ_codes_DRAM_1[0], PQ_codes_DRAM_1_char, PQ_codes_DRAM_1_size);
     free(PQ_codes_DRAM_1_char);
     uint64_t pc_PQ_codes_DRAM_1 = cproc.offload(PQ_codes_DRAM_1.data(), PQ_codes_DRAM_1_size, defBank_PQ_codes_DRAM_1);
+    pc_PQ_codes_DRAM_1.erase(pc_PQ_codes_DRAM_1.begin(), pc_PQ_codes_DRAM_1.end());
     std::cout << "Offload completed, pc_PQ_codes_DRAM_1: " << std::hex << pc_PQ_codes_DRAM_1  << std::dec << std::endl;
 
 
@@ -454,6 +458,7 @@ int main(int argc, char *argv[])
     memcpy(&PQ_codes_DRAM_2[0], PQ_codes_DRAM_2_char, PQ_codes_DRAM_2_size);
     free(PQ_codes_DRAM_2_char);
     uint64_t pc_PQ_codes_DRAM_2 = cproc.offload(PQ_codes_DRAM_2.data(), PQ_codes_DRAM_2_size, defBank_PQ_codes_DRAM_2);
+    pc_PQ_codes_DRAM_2.erase(pc_PQ_codes_DRAM_2.begin(), pc_PQ_codes_DRAM_2.end());
     std::cout << "Offload completed, pc_PQ_codes_DRAM_2: " << std::hex << pc_PQ_codes_DRAM_2  << std::dec << std::endl;
 
 
@@ -467,6 +472,7 @@ int main(int argc, char *argv[])
     memcpy(&PQ_codes_DRAM_3[0], PQ_codes_DRAM_3_char, PQ_codes_DRAM_3_size);
     free(PQ_codes_DRAM_3_char);
     uint64_t pc_PQ_codes_DRAM_3 = cproc.offload(PQ_codes_DRAM_3.data(), PQ_codes_DRAM_3_size, defBank_PQ_codes_DRAM_3);
+    pc_PQ_codes_DRAM_3.erase(pc_PQ_codes_DRAM_3.begin(), pc_PQ_codes_DRAM_3.end());
     std::cout << "Offload completed, pc_PQ_codes_DRAM_3: " << std::hex << pc_PQ_codes_DRAM_3  << std::dec << std::endl;
 
 
@@ -481,6 +487,7 @@ int main(int argc, char *argv[])
     memcpy(&vec_ID_DRAM_0[0], vec_ID_DRAM_0_char, vec_ID_DRAM_0_size);
     free(vec_ID_DRAM_0_char);
     uint64_t pc_vec_ID_DRAM_0 = cproc.offload(vec_ID_DRAM_0.data(), vec_ID_DRAM_0_size, defBank_vec_ID_DRAM_0);
+    pc_vec_ID_DRAM_0.erase(pc_vec_ID_DRAM_0.begin(), pc_vec_ID_DRAM_0.end());
     std::cout << "Offload completed, pc_vec_ID_DRAM_0: " << std::hex << pc_vec_ID_DRAM_0  << std::dec << std::endl;
 
 
@@ -494,6 +501,7 @@ int main(int argc, char *argv[])
     memcpy(&vec_ID_DRAM_1[0], vec_ID_DRAM_1_char, vec_ID_DRAM_1_size);
     free(vec_ID_DRAM_1_char);
     uint64_t pc_vec_ID_DRAM_1 = cproc.offload(vec_ID_DRAM_1.data(), vec_ID_DRAM_1_size, defBank_vec_ID_DRAM_1);
+    vec_ID_DRAM_1.erase(vec_ID_DRAM_1.begin(), vec_ID_DRAM_1.end());
     std::cout << "Offload completed, pc_vec_ID_DRAM_1: " << std::hex << pc_vec_ID_DRAM_1  << std::dec << std::endl;
 
 
@@ -507,6 +515,7 @@ int main(int argc, char *argv[])
     memcpy(&vec_ID_DRAM_2[0], vec_ID_DRAM_2_char, vec_ID_DRAM_2_size);
     free(vec_ID_DRAM_2_char);
     uint64_t pc_vec_ID_DRAM_2 = cproc.offload(vec_ID_DRAM_2.data(), vec_ID_DRAM_2_size, defBank_vec_ID_DRAM_2);
+    vec_ID_DRAM_2.erase(vec_ID_DRAM_2.begin(), vec_ID_DRAM_2.end());
     std::cout << "Offload completed, pc_vec_ID_DRAM_2: " << std::hex << pc_vec_ID_DRAM_2  << std::dec << std::endl;
 
 
@@ -520,6 +529,7 @@ int main(int argc, char *argv[])
     memcpy(&vec_ID_DRAM_3[0], vec_ID_DRAM_3_char, vec_ID_DRAM_3_size);
     free(vec_ID_DRAM_3_char);
     uint64_t pc_vec_ID_DRAM_3 = cproc.offload(vec_ID_DRAM_3.data(), vec_ID_DRAM_3_size, defBank_vec_ID_DRAM_3);
+    pc_vec_ID_DRAM_3.erase(pc_vec_ID_DRAM_3.begin(), pc_vec_ID_DRAM_3.end());
     std::cout << "Offload completed, pc_vec_ID_DRAM_3: " << std::hex << pc_vec_ID_DRAM_3  << std::dec << std::endl;
 
 
