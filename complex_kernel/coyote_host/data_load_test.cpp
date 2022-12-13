@@ -9,106 +9,11 @@
 #include <sys/time.h>  
 #include <chrono>
 #include <fstream>
-#include <fcntl.h>
 #include <unistd.h>
-#include <iomanip>
-#ifdef EN_AVX
-#include <x86intrin.h>
-#endif
-#include <boost/program_options.hpp>
-
-#include "cBench.hpp"
-#include "cProcess.hpp"
 
 #include "constants.hpp"
 #include "./hnswlib/hnswlib.h"
 
-using namespace std;
-using namespace fpga;
-
-/* Def params */
-constexpr auto const targetRegion = 0;
-
-/* Runtime */
-constexpr auto const defBank_meta_data_init = 1;
-constexpr auto const defBank_in_DRAM = 0;
-constexpr auto const defBank_PQ_codes_DRAM_0 = 0;
-constexpr auto const defBank_PQ_codes_DRAM_1 = 1;
-constexpr auto const defBank_PQ_codes_DRAM_2 = 2;
-constexpr auto const defBank_PQ_codes_DRAM_3 = 3;
-constexpr auto const defBank_vec_ID_DRAM_0 = 0;
-constexpr auto const defBank_vec_ID_DRAM_1 = 1;
-constexpr auto const defBank_vec_ID_DRAM_2 = 2;
-constexpr auto const defBank_vec_ID_DRAM_3 = 3;
-constexpr auto const defBank_out = 3;
-
-/**
- * @brief Reg map kernel controller
- * 
- */
-
-constexpr auto const ADDR_AP_CTRL               = 0x00 >> 2;
-constexpr auto const ADDR_GIE                   = 0x04 >> 2;
-constexpr auto const ADDR_IER                   = 0x08 >> 2;
-constexpr auto const ADDR_ISR                   = 0x0c >> 2;
-
-
-constexpr auto const ADDR_QUERY_NUM_DATA_0      = 0x10 >> 2;
-constexpr auto const ADDR_QUERY_NUM_CTRL        = 0x14 >> 2;
-
-constexpr auto const ADDR_NLIST_DATA_0          = 0x18 >> 2;
-constexpr auto const ADDR_NLIST_CTRL            = 0x1c >> 2;
-
-constexpr auto const ADDR_NPROBE_DATA_0         = 0x20 >> 2;
-constexpr auto const ADDR_NPROBE_CTRL           = 0x24 >> 2;
-
-
-constexpr auto const ADDR_META_DATA_INIT_DATA_0 = 0x28 >> 2;
-constexpr auto const ADDR_META_DATA_INIT_DATA_1 = 0x2c >> 2;
-constexpr auto const ADDR_META_DATA_INIT_CTRL   = 0x30 >> 2;
-
-constexpr auto const ADDR_IN_DRAM_DATA_0        = 0x34 >> 2;
-constexpr auto const ADDR_IN_DRAM_DATA_1        = 0x38 >> 2;
-constexpr auto const ADDR_IN_DRAM_CTRL          = 0x3c >> 2;
-
-constexpr auto const ADDR_PQ_CODES_DRAM_0_DATA_0  = 0x40 >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_0_DATA_1  = 0x44 >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_0_CTRL    = 0x48 >> 2;
-
-constexpr auto const ADDR_PQ_CODES_DRAM_1_DATA_0  = 0x4c >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_1_DATA_1  = 0x50 >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_1_CTRL    = 0x54 >> 2;
-
-constexpr auto const ADDR_PQ_CODES_DRAM_2_DATA_0  = 0x58 >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_2_DATA_1  = 0x5c >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_2_CTRL    = 0x60 >> 2;
-
-constexpr auto const ADDR_PQ_CODES_DRAM_3_DATA_0  = 0x64 >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_3_DATA_1  = 0x68 >> 2;
-constexpr auto const ADDR_PQ_CODES_DRAM_3_CTRL    = 0x6c >> 2;
-
-constexpr auto const ADDR_VEC_ID_DRAM_0_DATA_0  = 0x70 >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_0_DATA_1  = 0x74 >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_0_CTRL    = 0x78 >> 2;
-
-constexpr auto const ADDR_VEC_ID_DRAM_1_DATA_0  = 0x7c >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_1_DATA_1  = 0x80 >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_1_CTRL    = 0x84 >> 2;
-
-constexpr auto const ADDR_VEC_ID_DRAM_2_DATA_0  = 0x88 >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_2_DATA_1  = 0x8c >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_2_CTRL    = 0x90 >> 2;
-
-constexpr auto const ADDR_VEC_ID_DRAM_3_DATA_0  = 0x94 >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_3_DATA_1  = 0x98 >> 2;
-constexpr auto const ADDR_VEC_ID_DRAM_3_CTRL    = 0x9c >> 2;
-
-constexpr auto const ADDR_OUT_DRAM_DATA_0  = 0xa0 >> 2;
-constexpr auto const ADDR_OUT_DRAM_DATA_1  = 0xa4 >> 2;
-constexpr auto const ADDR_OUT_DRAM_CTRL    = 0xa8 >> 2;
-
-constexpr auto const krnlStart = 0x1;
-constexpr auto const krnlStatus = 0x2;
 
 /**
  * @brief Aligned allocation
@@ -147,15 +52,6 @@ int main(int argc, char *argv[])
     // Args 
     // ---------------------------------------------------------------
 
-    // Read arguments
-    boost::program_options::options_description programDescription("Options:");
-    programDescription.add_options()
-        ("runs,r", boost::program_options::value<uint32_t>(), "Number of  bench runs");
-    
-    boost::program_options::variables_map commandLineArgs;
-    boost::program_options::store(boost::program_options::parse_command_line(argc, argv, programDescription), commandLineArgs);
-    boost::program_options::notify(commandLineArgs);
-
     std::string db_name = "SBERT3000M";
     std::cout << "DB name: " << db_name << std::endl;
     
@@ -187,7 +83,7 @@ int main(int argc, char *argv[])
             vector_quantizer_dir_suffix = "vector_quantizer_float32_65536_384_raw";
         }
         query_num = 10000;
-        gnd_dir = "/scratch/wejiang/Faiss_experiments/sbert/";
+        gnd_dir = "/mnt/sbert/";
         product_quantizer_dir_suffix = "product_quantizer_float32_64_256_6_raw";
         query_vectors_dir_suffix = "query_vectors_float32_10000_384_raw";
         raw_gt_vec_ID_size = (10000 * 1000 + 2) * sizeof(int);
@@ -362,9 +258,6 @@ int main(int argc, char *argv[])
     std::cout << "Allocating memory, load from disk, and offload...\n";
     auto start_load = std::chrono::high_resolution_clock::now();
 
-    // Handles
-    cProcess cproc(targetRegion, getpid());
-
     // in init
     uint64_t nprobe = 32;
 
@@ -413,11 +306,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&meta_data_init[3 * nlist], product_quantizer_char, product_quantizer_size);
     free(product_quantizer_char);
-    uint64_t pc_meta_data_init = cproc.offload(meta_data_init.data(), meta_data_init_bytes, defBank_meta_data_init);
     meta_data_init = std::vector<int ,aligned_allocator<int >> (0);
     // meta_data_init.erase(meta_data_init.begin(), meta_data_init.end());
-    std::cout << "Offload completed, pc_meta_data_init: " << std::hex << pc_meta_data_init  << std::dec << std::endl;
-
 
     // in runtime (should from DRAM)
     std::vector<int ,aligned_allocator<int >> PQ_codes_DRAM_0(PQ_codes_DRAM_0_size / sizeof(int));
@@ -429,11 +319,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&PQ_codes_DRAM_0[0], PQ_codes_DRAM_0_char, PQ_codes_DRAM_0_size);
     free(PQ_codes_DRAM_0_char);
-    uint64_t pc_PQ_codes_DRAM_0 = cproc.offload(PQ_codes_DRAM_0.data(), PQ_codes_DRAM_0_size, defBank_PQ_codes_DRAM_0);
     PQ_codes_DRAM_0 = std::vector<int ,aligned_allocator<int >> (0);
     // PQ_codes_DRAM_0.erase(PQ_codes_DRAM_0.begin(), PQ_codes_DRAM_0.end());
-    std::cout << "Offload completed, pc_PQ_codes_DRAM_0: " << std::hex << pc_PQ_codes_DRAM_0  << std::dec << std::endl;
-
 
     std::vector<int ,aligned_allocator<int >> PQ_codes_DRAM_1(PQ_codes_DRAM_1_size / sizeof(int));
     char* PQ_codes_DRAM_1_char = (char*) malloc(PQ_codes_DRAM_1_size);
@@ -444,11 +331,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&PQ_codes_DRAM_1[0], PQ_codes_DRAM_1_char, PQ_codes_DRAM_1_size);
     free(PQ_codes_DRAM_1_char);
-    uint64_t pc_PQ_codes_DRAM_1 = cproc.offload(PQ_codes_DRAM_1.data(), PQ_codes_DRAM_1_size, defBank_PQ_codes_DRAM_1);
     PQ_codes_DRAM_1 = std::vector<int ,aligned_allocator<int >> (0);
     // PQ_codes_DRAM_1.erase(PQ_codes_DRAM_1.begin(), PQ_codes_DRAM_1.end());
-    std::cout << "Offload completed, pc_PQ_codes_DRAM_1: " << std::hex << pc_PQ_codes_DRAM_1  << std::dec << std::endl;
-
 
     std::vector<int ,aligned_allocator<int >> PQ_codes_DRAM_2(PQ_codes_DRAM_2_size / sizeof(int));
     char* PQ_codes_DRAM_2_char = (char*) malloc(PQ_codes_DRAM_2_size);
@@ -459,11 +343,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&PQ_codes_DRAM_2[0], PQ_codes_DRAM_2_char, PQ_codes_DRAM_2_size);
     free(PQ_codes_DRAM_2_char);
-    uint64_t pc_PQ_codes_DRAM_2 = cproc.offload(PQ_codes_DRAM_2.data(), PQ_codes_DRAM_2_size, defBank_PQ_codes_DRAM_2);
     PQ_codes_DRAM_2 = std::vector<int ,aligned_allocator<int >> (0);
     // PQ_codes_DRAM_2.erase(PQ_codes_DRAM_2.begin(), PQ_codes_DRAM_2.end());
-    std::cout << "Offload completed, pc_PQ_codes_DRAM_2: " << std::hex << pc_PQ_codes_DRAM_2  << std::dec << std::endl;
-
 
     std::vector<int ,aligned_allocator<int >> PQ_codes_DRAM_3(PQ_codes_DRAM_3_size / sizeof(int));
     char* PQ_codes_DRAM_3_char = (char*) malloc(PQ_codes_DRAM_3_size);
@@ -474,11 +355,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&PQ_codes_DRAM_3[0], PQ_codes_DRAM_3_char, PQ_codes_DRAM_3_size);
     free(PQ_codes_DRAM_3_char);
-    uint64_t pc_PQ_codes_DRAM_3 = cproc.offload(PQ_codes_DRAM_3.data(), PQ_codes_DRAM_3_size, defBank_PQ_codes_DRAM_3);
     PQ_codes_DRAM_3 = std::vector<int ,aligned_allocator<int >> (0);
     // PQ_codes_DRAM_3.erase(PQ_codes_DRAM_3.begin(), PQ_codes_DRAM_3.end());
-    std::cout << "Offload completed, pc_PQ_codes_DRAM_3: " << std::hex << pc_PQ_codes_DRAM_3  << std::dec << std::endl;
-
 
 
     std::vector<int ,aligned_allocator<int >> vec_ID_DRAM_0(vec_ID_DRAM_0_size / sizeof(int));
@@ -490,11 +368,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&vec_ID_DRAM_0[0], vec_ID_DRAM_0_char, vec_ID_DRAM_0_size);
     free(vec_ID_DRAM_0_char);
-    uint64_t pc_vec_ID_DRAM_0 = cproc.offload(vec_ID_DRAM_0.data(), vec_ID_DRAM_0_size, defBank_vec_ID_DRAM_0);
     vec_ID_DRAM_0 = std::vector<int ,aligned_allocator<int >> (0);
     // vec_ID_DRAM_0.erase(vec_ID_DRAM_0.begin(), vec_ID_DRAM_0.end());
-    std::cout << "Offload completed, pc_vec_ID_DRAM_0: " << std::hex << pc_vec_ID_DRAM_0  << std::dec << std::endl;
-
 
     std::vector<int ,aligned_allocator<int >> vec_ID_DRAM_1(vec_ID_DRAM_1_size / sizeof(int));
     char* vec_ID_DRAM_1_char = (char*) malloc(vec_ID_DRAM_1_size);
@@ -505,11 +380,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&vec_ID_DRAM_1[0], vec_ID_DRAM_1_char, vec_ID_DRAM_1_size);
     free(vec_ID_DRAM_1_char);
-    uint64_t pc_vec_ID_DRAM_1 = cproc.offload(vec_ID_DRAM_1.data(), vec_ID_DRAM_1_size, defBank_vec_ID_DRAM_1);
     vec_ID_DRAM_1 = std::vector<int ,aligned_allocator<int >> (0);
     // vec_ID_DRAM_1.erase(vec_ID_DRAM_1.begin(), vec_ID_DRAM_1.end());
-    std::cout << "Offload completed, pc_vec_ID_DRAM_1: " << std::hex << pc_vec_ID_DRAM_1  << std::dec << std::endl;
-
 
     std::vector<int ,aligned_allocator<int >> vec_ID_DRAM_2(vec_ID_DRAM_2_size / sizeof(int));
     char* vec_ID_DRAM_2_char = (char*) malloc(vec_ID_DRAM_2_size);
@@ -520,11 +392,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&vec_ID_DRAM_2[0], vec_ID_DRAM_2_char, vec_ID_DRAM_2_size);
     free(vec_ID_DRAM_2_char);
-    uint64_t pc_vec_ID_DRAM_2 = cproc.offload(vec_ID_DRAM_2.data(), vec_ID_DRAM_2_size, defBank_vec_ID_DRAM_2);
     vec_ID_DRAM_2 = std::vector<int ,aligned_allocator<int >> (0);
     // vec_ID_DRAM_2.erase(vec_ID_DRAM_2.begin(), vec_ID_DRAM_2.end());
-    std::cout << "Offload completed, pc_vec_ID_DRAM_2: " << std::hex << pc_vec_ID_DRAM_2  << std::dec << std::endl;
-
 
     std::vector<int ,aligned_allocator<int >> vec_ID_DRAM_3(vec_ID_DRAM_3_size / sizeof(int));
     char* vec_ID_DRAM_3_char = (char*) malloc(vec_ID_DRAM_3_size);
@@ -535,11 +404,8 @@ int main(int argc, char *argv[])
     }
     memcpy(&vec_ID_DRAM_3[0], vec_ID_DRAM_3_char, vec_ID_DRAM_3_size);
     free(vec_ID_DRAM_3_char);
-    uint64_t pc_vec_ID_DRAM_3 = cproc.offload(vec_ID_DRAM_3.data(), vec_ID_DRAM_3_size, defBank_vec_ID_DRAM_3);
     vec_ID_DRAM_3 = std::vector<int ,aligned_allocator<int >> (0);
     // vec_ID_DRAM_3.erase(vec_ID_DRAM_3.begin(), vec_ID_DRAM_3.end());
-    std::cout << "Offload completed, pc_vec_ID_DRAM_3: " << std::hex << pc_vec_ID_DRAM_3  << std::dec << std::endl;
-
 
     // in runtime (should from network) in 512-bit packet
     uint64_t size_header = 1;
@@ -561,8 +427,6 @@ int main(int argc, char *argv[])
     uint64_t size_results = 1 + size_results_vec_ID + size_results_dist; // in 512-bit packet
     uint64_t out_bytes = query_num * 64 * size_results;
     std::vector<int ,aligned_allocator<int>> out(out_bytes / sizeof(int));
-    uint64_t pc_out = cproc.offload(out.data(), out_bytes, defBank_out);
-    std::cout << "Offload completed, pc_out: " << std::hex << pc_out  << std::dec << std::endl;
 
     // the raw ground truth size is the same for idx_1M.ivecs, idx_10M.ivecs, idx_100M.ivecs
     // recall counts the very first nearest neighbor only
@@ -740,74 +604,10 @@ int main(int argc, char *argv[])
         }        
     }
 
-    uint64_t pc_in_DRAM = cproc.offload(in_DRAM.data(), in_DRAM_bytes, defBank_in_DRAM);
-    std::cout << "Offload completed, pc_in_DRAM: " << std::hex << pc_in_DRAM  << std::dec << std::endl;
-
     auto end_LUT = std::chrono::high_resolution_clock::now();
     double duration_LUT = (std::chrono::duration_cast<std::chrono::milliseconds>(end_LUT - start_LUT).count());
 
     std::cout << "Duration Select Cells to Scan: " << duration_LUT << " ms" << std::endl; 
-    
-
-
-    // Args (the way these registers are ordered is something else, Xilinx is great ...)
-    cproc.setCSR(int(query_num), ADDR_QUERY_NUM_DATA_0);
-    cproc.setCSR(int(nlist), ADDR_NLIST_DATA_0);
-    cproc.setCSR(int(nprobe), ADDR_NPROBE_DATA_0);
-
-    cproc.setCSR(LOW_32(pc_meta_data_init), ADDR_META_DATA_INIT_DATA_0);
-    cproc.setCSR(HIGH_32(pc_meta_data_init), ADDR_META_DATA_INIT_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_in_DRAM), ADDR_IN_DRAM_DATA_0);
-    cproc.setCSR(HIGH_32(pc_in_DRAM), ADDR_IN_DRAM_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_PQ_codes_DRAM_0), ADDR_PQ_CODES_DRAM_0_DATA_0);
-    cproc.setCSR(HIGH_32(pc_PQ_codes_DRAM_0), ADDR_PQ_CODES_DRAM_0_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_PQ_codes_DRAM_1), ADDR_PQ_CODES_DRAM_1_DATA_0); 
-    cproc.setCSR(HIGH_32(pc_PQ_codes_DRAM_1), ADDR_PQ_CODES_DRAM_1_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_PQ_codes_DRAM_2), ADDR_PQ_CODES_DRAM_2_DATA_0);
-    cproc.setCSR(HIGH_32(pc_PQ_codes_DRAM_2), ADDR_PQ_CODES_DRAM_2_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_PQ_codes_DRAM_3), ADDR_PQ_CODES_DRAM_3_DATA_0);
-    cproc.setCSR(HIGH_32(pc_PQ_codes_DRAM_3), ADDR_PQ_CODES_DRAM_3_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_vec_ID_DRAM_0), ADDR_VEC_ID_DRAM_0_DATA_0);
-    cproc.setCSR(HIGH_32(pc_vec_ID_DRAM_0), ADDR_VEC_ID_DRAM_0_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_vec_ID_DRAM_1), ADDR_VEC_ID_DRAM_1_DATA_0);
-    cproc.setCSR(HIGH_32(pc_vec_ID_DRAM_1), ADDR_VEC_ID_DRAM_1_DATA_1);
-    
-    cproc.setCSR(LOW_32(pc_vec_ID_DRAM_2), ADDR_VEC_ID_DRAM_2_DATA_0);
-    cproc.setCSR(HIGH_32(pc_vec_ID_DRAM_2), ADDR_VEC_ID_DRAM_2_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_vec_ID_DRAM_3), ADDR_VEC_ID_DRAM_3_DATA_0);
-    cproc.setCSR(HIGH_32(pc_vec_ID_DRAM_3), ADDR_VEC_ID_DRAM_3_DATA_1);
-
-    cproc.setCSR(LOW_32(pc_out), ADDR_OUT_DRAM_DATA_0);
-    cproc.setCSR(HIGH_32(pc_out), ADDR_OUT_DRAM_DATA_1);
-
-    // ---------------------------------------------------------------
-    // Runs 
-    // ---------------------------------------------------------------
-    
-    // Launch
-    std::cout << "Launching kernel ..." << std::endl;
-    auto start = std::chrono::high_resolution_clock::now();
-
-    cproc.setCSR(krnlStart, ADDR_AP_CTRL);
-
-    // Poll
-    while((cproc.getCSR(ADDR_AP_CTRL) & krnlStatus) != krnlStatus)
-        nanosleep((const struct timespec[]){{0, 100L}}, NULL);
-
-    auto end = std::chrono::high_resolution_clock::now();
-    double duration = (std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count() / 1000.0);
-    std::cout << "Duration: " << duration << " sec" << std::endl; 
-
-    // Sync
-    cproc.sync(out.data());
 
 
     std::cout << "Comparing Results..." << std::endl;
@@ -941,7 +741,6 @@ int main(int argc, char *argv[])
     // Release 
     // ---------------------------------------------------------------
 
-    cproc.printDebug();
 
     return EXIT_SUCCESS;
 }
