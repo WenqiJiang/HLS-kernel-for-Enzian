@@ -421,14 +421,15 @@ int main(int argc, char *argv[])
 
     // in runtime (should from DRAM)
     std::vector<int ,aligned_allocator<int >> PQ_codes_DRAM_0(PQ_codes_DRAM_0_size / sizeof(int));
-    char* PQ_codes_DRAM_0_char = (char*) malloc(PQ_codes_DRAM_0_size);
-    PQ_codes_DRAM_0_fstream.read(PQ_codes_DRAM_0_char, PQ_codes_DRAM_0_size);
+    PQ_codes_DRAM_0_fstream.read((char*) PQ_codes_DRAM_0.data(), PQ_codes_DRAM_0_size);
+    // char* PQ_codes_DRAM_0_char = (char*) malloc(PQ_codes_DRAM_0_size);
+    // PQ_codes_DRAM_0_fstream.read(PQ_codes_DRAM_0_char, PQ_codes_DRAM_0_size);
     if (!PQ_codes_DRAM_0_fstream) {
             std::cout << "error: only " << PQ_codes_DRAM_0_fstream.gcount() << " could be read";
         exit(1);
     }
-    memcpy(&PQ_codes_DRAM_0[0], PQ_codes_DRAM_0_char, PQ_codes_DRAM_0_size);
-    free(PQ_codes_DRAM_0_char);
+    // memcpy(&PQ_codes_DRAM_0[0], PQ_codes_DRAM_0_char, PQ_codes_DRAM_0_size);
+    // free(PQ_codes_DRAM_0_char);
     uint64_t pc_PQ_codes_DRAM_0 = cproc.offload(PQ_codes_DRAM_0.data(), PQ_codes_DRAM_0_size, defBank_PQ_codes_DRAM_0);
     PQ_codes_DRAM_0 = std::vector<int ,aligned_allocator<int >> (0);
     // PQ_codes_DRAM_0.erase(PQ_codes_DRAM_0.begin(), PQ_codes_DRAM_0.end());
@@ -436,14 +437,15 @@ int main(int argc, char *argv[])
 
 
     std::vector<int ,aligned_allocator<int >> PQ_codes_DRAM_1(PQ_codes_DRAM_1_size / sizeof(int));
-    char* PQ_codes_DRAM_1_char = (char*) malloc(PQ_codes_DRAM_1_size);
-    PQ_codes_DRAM_1_fstream.read(PQ_codes_DRAM_1_char, PQ_codes_DRAM_1_size);
+    PQ_codes_DRAM_1_fstream.read((char*) PQ_codes_DRAM_1.data(), PQ_codes_DRAM_1_size);
+    // char* PQ_codes_DRAM_1_char = (char*) malloc(PQ_codes_DRAM_1_size);
+    // PQ_codes_DRAM_1_fstream.read(PQ_codes_DRAM_1_char, PQ_codes_DRAM_1_size);
     if (!PQ_codes_DRAM_1_fstream) {
             std::cout << "error: only " << PQ_codes_DRAM_1_fstream.gcount() << " could be read";
         exit(1);
     }
-    memcpy(&PQ_codes_DRAM_1[0], PQ_codes_DRAM_1_char, PQ_codes_DRAM_1_size);
-    free(PQ_codes_DRAM_1_char);
+    // memcpy(&PQ_codes_DRAM_1[0], PQ_codes_DRAM_1_char, PQ_codes_DRAM_1_size);
+    // free(PQ_codes_DRAM_1_char);
     uint64_t pc_PQ_codes_DRAM_1 = cproc.offload(PQ_codes_DRAM_1.data(), PQ_codes_DRAM_1_size, defBank_PQ_codes_DRAM_1);
     PQ_codes_DRAM_1 = std::vector<int ,aligned_allocator<int >> (0);
     // PQ_codes_DRAM_1.erase(PQ_codes_DRAM_1.begin(), PQ_codes_DRAM_1.end());
@@ -451,14 +453,15 @@ int main(int argc, char *argv[])
 
 
     std::vector<int ,aligned_allocator<int >> PQ_codes_DRAM_2(PQ_codes_DRAM_2_size / sizeof(int));
-    char* PQ_codes_DRAM_2_char = (char*) malloc(PQ_codes_DRAM_2_size);
-    PQ_codes_DRAM_2_fstream.read(PQ_codes_DRAM_2_char, PQ_codes_DRAM_2_size);
+    PQ_codes_DRAM_2_fstream.read((char*) PQ_codes_DRAM_2.data(), PQ_codes_DRAM_2_size);
+    // char* PQ_codes_DRAM_2_char = (char*) malloc(PQ_codes_DRAM_2_size);
+    // PQ_codes_DRAM_2_fstream.read(PQ_codes_DRAM_2_char, PQ_codes_DRAM_2_size);
     if (!PQ_codes_DRAM_2_fstream) {
             std::cout << "error: only " << PQ_codes_DRAM_2_fstream.gcount() << " could be read";
         exit(1);
     }
-    memcpy(&PQ_codes_DRAM_2[0], PQ_codes_DRAM_2_char, PQ_codes_DRAM_2_size);
-    free(PQ_codes_DRAM_2_char);
+    // memcpy(&PQ_codes_DRAM_2[0], PQ_codes_DRAM_2_char, PQ_codes_DRAM_2_size);
+    // free(PQ_codes_DRAM_2_char);
     uint64_t pc_PQ_codes_DRAM_2 = cproc.offload(PQ_codes_DRAM_2.data(), PQ_codes_DRAM_2_size, defBank_PQ_codes_DRAM_2);
     PQ_codes_DRAM_2 = std::vector<int ,aligned_allocator<int >> (0);
     // PQ_codes_DRAM_2.erase(PQ_codes_DRAM_2.begin(), PQ_codes_DRAM_2.end());
@@ -466,14 +469,15 @@ int main(int argc, char *argv[])
 
 
     std::vector<int ,aligned_allocator<int >> PQ_codes_DRAM_3(PQ_codes_DRAM_3_size / sizeof(int));
-    char* PQ_codes_DRAM_3_char = (char*) malloc(PQ_codes_DRAM_3_size);
-    PQ_codes_DRAM_3_fstream.read(PQ_codes_DRAM_3_char, PQ_codes_DRAM_3_size);
+    PQ_codes_DRAM_3_fstream.read((char*) PQ_codes_DRAM_3.data(), PQ_codes_DRAM_3_size);
+    // char* PQ_codes_DRAM_3_char = (char*) malloc(PQ_codes_DRAM_3_size);
+    // PQ_codes_DRAM_3_fstream.read(PQ_codes_DRAM_3_char, PQ_codes_DRAM_3_size);
     if (!PQ_codes_DRAM_3_fstream) {
             std::cout << "error: only " << PQ_codes_DRAM_3_fstream.gcount() << " could be read";
         exit(1);
     }
-    memcpy(&PQ_codes_DRAM_3[0], PQ_codes_DRAM_3_char, PQ_codes_DRAM_3_size);
-    free(PQ_codes_DRAM_3_char);
+    // memcpy(&PQ_codes_DRAM_3[0], PQ_codes_DRAM_3_char, PQ_codes_DRAM_3_size);
+    // free(PQ_codes_DRAM_3_char);
     uint64_t pc_PQ_codes_DRAM_3 = cproc.offload(PQ_codes_DRAM_3.data(), PQ_codes_DRAM_3_size, defBank_PQ_codes_DRAM_3);
     PQ_codes_DRAM_3 = std::vector<int ,aligned_allocator<int >> (0);
     // PQ_codes_DRAM_3.erase(PQ_codes_DRAM_3.begin(), PQ_codes_DRAM_3.end());
@@ -482,14 +486,15 @@ int main(int argc, char *argv[])
 
 
     std::vector<int ,aligned_allocator<int >> vec_ID_DRAM_0(vec_ID_DRAM_0_size / sizeof(int));
-    char* vec_ID_DRAM_0_char = (char*) malloc(vec_ID_DRAM_0_size);
-    vec_ID_DRAM_0_fstream.read(vec_ID_DRAM_0_char, vec_ID_DRAM_0_size);
+    vec_ID_DRAM_0_fstream.read((char*) vec_ID_DRAM_0.data(), vec_ID_DRAM_0_size);
+    // char* vec_ID_DRAM_0_char = (char*) malloc(vec_ID_DRAM_0_size);
+    // vec_ID_DRAM_0_fstream.read(vec_ID_DRAM_0_char, vec_ID_DRAM_0_size);
     if (!vec_ID_DRAM_0_fstream) {
             std::cout << "error: only " << vec_ID_DRAM_0_fstream.gcount() << " could be read";
         exit(1);
     }
-    memcpy(&vec_ID_DRAM_0[0], vec_ID_DRAM_0_char, vec_ID_DRAM_0_size);
-    free(vec_ID_DRAM_0_char);
+    // memcpy(&vec_ID_DRAM_0[0], vec_ID_DRAM_0_char, vec_ID_DRAM_0_size);
+    // free(vec_ID_DRAM_0_char);
     uint64_t pc_vec_ID_DRAM_0 = cproc.offload(vec_ID_DRAM_0.data(), vec_ID_DRAM_0_size, defBank_vec_ID_DRAM_0);
     vec_ID_DRAM_0 = std::vector<int ,aligned_allocator<int >> (0);
     // vec_ID_DRAM_0.erase(vec_ID_DRAM_0.begin(), vec_ID_DRAM_0.end());
@@ -497,14 +502,15 @@ int main(int argc, char *argv[])
 
 
     std::vector<int ,aligned_allocator<int >> vec_ID_DRAM_1(vec_ID_DRAM_1_size / sizeof(int));
-    char* vec_ID_DRAM_1_char = (char*) malloc(vec_ID_DRAM_1_size);
-    vec_ID_DRAM_1_fstream.read(vec_ID_DRAM_1_char, vec_ID_DRAM_1_size);
+    vec_ID_DRAM_1_fstream.read((char*) vec_ID_DRAM_1.data(), vec_ID_DRAM_1_size);
+    // char* vec_ID_DRAM_1_char = (char*) malloc(vec_ID_DRAM_1_size);
+    // vec_ID_DRAM_1_fstream.read(vec_ID_DRAM_1_char, vec_ID_DRAM_1_size);
     if (!vec_ID_DRAM_1_fstream) {
             std::cout << "error: only " << vec_ID_DRAM_1_fstream.gcount() << " could be read";
         exit(1);
     }
-    memcpy(&vec_ID_DRAM_1[0], vec_ID_DRAM_1_char, vec_ID_DRAM_1_size);
-    free(vec_ID_DRAM_1_char);
+    // memcpy(&vec_ID_DRAM_1[0], vec_ID_DRAM_1_char, vec_ID_DRAM_1_size);
+    // free(vec_ID_DRAM_1_char);
     uint64_t pc_vec_ID_DRAM_1 = cproc.offload(vec_ID_DRAM_1.data(), vec_ID_DRAM_1_size, defBank_vec_ID_DRAM_1);
     vec_ID_DRAM_1 = std::vector<int ,aligned_allocator<int >> (0);
     // vec_ID_DRAM_1.erase(vec_ID_DRAM_1.begin(), vec_ID_DRAM_1.end());
@@ -512,14 +518,15 @@ int main(int argc, char *argv[])
 
 
     std::vector<int ,aligned_allocator<int >> vec_ID_DRAM_2(vec_ID_DRAM_2_size / sizeof(int));
-    char* vec_ID_DRAM_2_char = (char*) malloc(vec_ID_DRAM_2_size);
-    vec_ID_DRAM_2_fstream.read(vec_ID_DRAM_2_char, vec_ID_DRAM_2_size);
+    vec_ID_DRAM_2_fstream.read((char*) vec_ID_DRAM_2.data(), vec_ID_DRAM_2_size);
+    // char* vec_ID_DRAM_2_char = (char*) malloc(vec_ID_DRAM_2_size);
+    // vec_ID_DRAM_2_fstream.read(vec_ID_DRAM_2_char, vec_ID_DRAM_2_size);
     if (!vec_ID_DRAM_2_fstream) {
             std::cout << "error: only " << vec_ID_DRAM_2_fstream.gcount() << " could be read";
         exit(1);
     }
-    memcpy(&vec_ID_DRAM_2[0], vec_ID_DRAM_2_char, vec_ID_DRAM_2_size);
-    free(vec_ID_DRAM_2_char);
+    // memcpy(&vec_ID_DRAM_2[0], vec_ID_DRAM_2_char, vec_ID_DRAM_2_size);
+    // free(vec_ID_DRAM_2_char);
     uint64_t pc_vec_ID_DRAM_2 = cproc.offload(vec_ID_DRAM_2.data(), vec_ID_DRAM_2_size, defBank_vec_ID_DRAM_2);
     vec_ID_DRAM_2 = std::vector<int ,aligned_allocator<int >> (0);
     // vec_ID_DRAM_2.erase(vec_ID_DRAM_2.begin(), vec_ID_DRAM_2.end());
@@ -527,14 +534,15 @@ int main(int argc, char *argv[])
 
 
     std::vector<int ,aligned_allocator<int >> vec_ID_DRAM_3(vec_ID_DRAM_3_size / sizeof(int));
-    char* vec_ID_DRAM_3_char = (char*) malloc(vec_ID_DRAM_3_size);
-    vec_ID_DRAM_3_fstream.read(vec_ID_DRAM_3_char, vec_ID_DRAM_3_size);
+    vec_ID_DRAM_3_fstream.read((char*) vec_ID_DRAM_3.data(), vec_ID_DRAM_3_size);
+    // char* vec_ID_DRAM_3_char = (char*) malloc(vec_ID_DRAM_3_size);
+    // vec_ID_DRAM_3_fstream.read(vec_ID_DRAM_3_char, vec_ID_DRAM_3_size);
     if (!vec_ID_DRAM_3_fstream) {
             std::cout << "error: only " << vec_ID_DRAM_3_fstream.gcount() << " could be read";
         exit(1);
     }
-    memcpy(&vec_ID_DRAM_3[0], vec_ID_DRAM_3_char, vec_ID_DRAM_3_size);
-    free(vec_ID_DRAM_3_char);
+    // memcpy(&vec_ID_DRAM_3[0], vec_ID_DRAM_3_char, vec_ID_DRAM_3_size);
+    // free(vec_ID_DRAM_3_char);
     uint64_t pc_vec_ID_DRAM_3 = cproc.offload(vec_ID_DRAM_3.data(), vec_ID_DRAM_3_size, defBank_vec_ID_DRAM_3);
     vec_ID_DRAM_3 = std::vector<int ,aligned_allocator<int >> (0);
     // vec_ID_DRAM_3.erase(vec_ID_DRAM_3.begin(), vec_ID_DRAM_3.end());
